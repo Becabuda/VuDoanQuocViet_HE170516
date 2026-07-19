@@ -370,9 +370,11 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       _editingUser = null;
       _selectedAvatar = null;
     });
-    _formKey.currentState!.reset();
     _fullNameController.clear();
     _emailController.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _formKey.currentState?.reset();
+    });
   }
 
   void _startEdit(User user) {
@@ -382,6 +384,10 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       _emailController.text = user.email;
       _selectedAvatar = user.avatar;
     });
+    // Reset sau khi parent đã rebuild để FormField nhận initialValue mới.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _formKey.currentState?.reset();
+    });
   }
 
   void _cancelEdit() {
@@ -389,9 +395,11 @@ class _UserListScreenState extends ConsumerState<UserListScreen> {
       _editingUser = null;
       _selectedAvatar = null;
     });
-    _formKey.currentState!.reset();
     _fullNameController.clear();
     _emailController.clear();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _formKey.currentState?.reset();
+    });
   }
 
   Future<void> _confirmDelete(User user) async {
